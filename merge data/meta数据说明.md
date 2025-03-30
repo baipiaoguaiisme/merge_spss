@@ -15,7 +15,7 @@
 |  缺失  |        missing_ranges        | type:dict |
 |  测量  |       variable_measure       | type:dict |
 
-#### Note:original_variable_types形如：___{'CNT': 'A3', 'CNTRYID': 'F3.0'}___<br>A3中的A通常代表 “字符型（Character）”数据类型，3表示该字符变量的显示宽度为3个字符<br>F3.0的F一般代表 “数值型（Numeric）”数据。3表示整个数值的宽度为3个字符.0表示小数点后的小数位数为 0
+#### Note:<br>meta.original_variable_types形如：___{'CNT': 'A3', 'CNTRYID': 'F3.0'}___<br>A3中的A通常代表 “字符型（Character）”数据类型，3表示该字符变量的显示宽度为3个字符<br>F3.0的F一般代表 “数值型（Numeric）”数据。3表示整个数值的宽度为3个字符.0表示小数点后的小数位数为 0
 ***
 ## 读取文件：
     df, meta = pr.read_sav(filePath, user_missing=True) #user_missing默认为False，若设置为True，缺失值会用设定好的缺失值代替，如99，虽然meta.missing_ranges有数据，但会影响计算

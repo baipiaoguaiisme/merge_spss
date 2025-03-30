@@ -4,10 +4,10 @@ import os
 from tqdm import tqdm
 
 # 数据文件的路径
-bashPath = r'C:\Users\yst\Desktop\self-efficacy\data'
+bashPath = r'C:\Users\yst\Desktop\xxx'
 # 数据文件名
-fileName = 'student_school.sav'
-saveFileName = 'student_school_filled_.sav'
+fileName = 'xxx.sav'
+saveFileName = 'xxx.sav'
 
 filePath = os.path.join(bashPath, fileName)
 df, meta = pr.read_sav(filePath)

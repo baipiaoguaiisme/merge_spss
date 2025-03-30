@@ -7,9 +7,9 @@ import os
 from tqdm import tqdm
 import pyreadstat as pr
 
-basePath = r'C:\Users\yst\Desktop\self-efficacy\data'
-fileName1 = 'student.sav'
-fileName2 = 'school.sav'
+basePath = r'C:\Users\yst\Desktop\xxx'
+fileName1 = 'xxx.sav'
+fileName2 = 'xxx.sav'
 
 df1, meta1 = pr.read_sav(os.path.join(basePath, fileName1))
 df2, meta2 = pr.read_sav(os.path.join(basePath, fileName2))
@@ -133,4 +133,4 @@ def process_meta(df1_columns, df2_columns, meta1, meta2):
 if __name__ == '__main__':
     df = merge_data(df1, df2, index_column_name='CNTSCHID')
     meta = process_meta(df1_columns, df2_columns, meta1, meta2)
-    save(df, './', 'student_school.sav', meta, compress=True)
+    save(df, './', 'xxx.sav', meta, compress=True)

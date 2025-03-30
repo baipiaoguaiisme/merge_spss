@@ -4,9 +4,9 @@ import os
 from tqdm import tqdm
 
 # 数据文件的路径
-bashPath = r'C:\Users\yst\Desktop\xxx'
+bashPath = r'C:\Users\yst\Desktop\self-efficacy\data'
 # 数据文件名
-fileNames = ['xxx.sav']
+fileNames = ['teacher.sav']
 
 # 根据flag，将相同flag的变量/列平均成一条案例
 flag = 'CNTSCHID'
@@ -53,7 +53,7 @@ for fileName in fileNames:
     numeric_columns = [col for col, var_type in variable_types.items() if var_type.startswith('F')]
     filtered_missing_ranges = {col: meta.missing_ranges[col] for col in meta.missing_ranges if col in numeric_columns}
     # 保存文件
-    pr.write_sav(new_df, 'xxx.sav',
+    pr.write_sav(new_df, 'teacher_average.sav',
                  column_labels=meta.column_labels,
                  variable_value_labels=meta.variable_value_labels,
                  missing_ranges=filtered_missing_ranges,

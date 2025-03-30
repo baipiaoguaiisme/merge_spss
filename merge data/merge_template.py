@@ -3,8 +3,9 @@ import pyreadstat as pr
 import os
 import numpy as np
 
-bashPath = r'C:\Users\yst\Desktop\xxx'
-fileNames = ['xxx.sav']
+bashPath = r'C:\Users\yst\Desktop\self-efficacy\data'
+# fileNames = ['student.sav', 'school.sav', 'teacher.sav']
+fileNames = ['student.sav']
 
 columns = []
 dfs = []
@@ -17,9 +18,13 @@ for fileName in fileNames:
     # print(meta.variable_display_width)  # {'CNT': 3, 'CNTRYID': 8, 'CNTSCHID': 8, 'CNTSTUID': 8, 'CYC': 4}
     # print(meta.variable_measure) # {'CNT': 'nominal', 'CNTRYID': 'nominal', 'PV10MPRE': 'scale', 'SENWT': 'scale'}
     # print(meta.original_variable_types)  # {'CNT': 'A3', 'CNTRYID': 'F3.0'}
+    # print(meta.readstat_variable_types)  # {'CNT': 'string', 'CNTRYID': 'double', 'CNTSCHID': 'double'
+    print(meta.column_names) # ['CNT', 'CNTRYID', 'CNTSCHID', 'CNTSTUID']
+    # print(meta)
+    # print(meta)
+    # print(meta)
 
-# 保存文件
-# pr.write_sav(df, 'xxx.sav',
+# pr.write_sav(df, '1.sav',
 #              column_labels=meta.column_labels,
 #              variable_value_labels=meta.variable_value_labels,
 #              missing_ranges=meta.missing_ranges,

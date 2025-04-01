@@ -4,9 +4,9 @@ import pandas as pd
 import pyreadstat as pr
 import os
 
-basePath = r'C:\Users\yst\Desktop\self-efficacy\data'
-fileNames = ['train_test_data.sav']
-saveName = 'train_test_data_standard.sav'
+basePath = r'C:\Users\perper\Desktop\self-efficacy\data'
+fileNames = ['student_school_filled_knn.sav']
+saveName = 'student_school_filled_knn_standard.sav'
 path = os.path.join(basePath, fileNames[0])
 
 df, meta = pr.read_sav(path)

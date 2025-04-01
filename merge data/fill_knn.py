@@ -15,7 +15,7 @@ saveFileName = 'student_school_filled_knn.sav'
 filePath = os.path.join(bashPath, fileName)
 df, meta = pr.read_sav(filePath)
 
-imputer = KNNImputer(n_neighbors=50)
+imputer = KNNImputer(n_neighbors=200)
 
 # 对全缺失的列进行删除
 # 存储被删除的列的索引

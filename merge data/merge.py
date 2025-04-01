@@ -6,8 +6,9 @@ import pandas as pd
 import os
 from tqdm import tqdm
 import pyreadstat as pr
+from utils.meta_process import *
 
-basePath = r'C:\Users\yst\Desktop\self-efficacy\data'
+basePath = r'C:\Users\perper\Desktop\self-efficacy\data'
 fileName1 = 'student.sav'
 fileName2 = 'school.sav'
 
@@ -42,7 +43,7 @@ def merge_data(d1: pd.DataFrame, d2: pd.DataFrame, index_column_name: str):
 
     unique_columns = list(unique_columns_sored)
     d2_index_column = d2[index_column_name]  # 将一列数据取出
-    # d2_index_column = d2_index_column[:5] # 测试
+    d2_index_column = d2_index_column[:10] # 测试
     for step, column in tqdm(enumerate(d2_index_column), total=len(d2_index_column)):  # [34400001,34400002,34400003...]
         d2_target_row = d2[d2[index_column_name] == column]  # 取出d2对应列中的对应行,shape(1, 431)(index,column)
         d1_target_row = d1[d1[index_column_name] == column]  # 取出d1对应列中的对应行,shape(26, 1697) (index,column)
@@ -87,32 +88,22 @@ def process_meta(df1_columns, df2_columns, meta1, meta2):
     column_labels_keys = list(column_labels.keys())  # ['VER_DAT', 'STRATUM', 'OECD']
     column_labels_values = list(column_labels.values())  # [8, 3, 10, 1]
 
+    meta_dict = meta_process(meta2, column_labels_keys, column_labels_values)
+
     # 处理好的column_labels
-    meta2_column_labels = remove_elements_by_indices(meta2.column_labels, column_labels_values)
+    meta2_column_labels = meta_dict['column_labels']
 
     # 处理好的variable_value_labels
-    meta2_variable_value_labels = meta2.variable_value_labels
-    for key in column_labels_keys:
-        if key in meta2.variable_value_labels:
-            del meta2_variable_value_labels[key]
+    meta2_variable_value_labels = meta_dict['variable_value_labels']
 
     # 处理好的variable_display_width
-    meta2_variable_display_width = meta2.variable_display_width
-    for key in column_labels_keys:
-        if key in meta2.variable_display_width:
-            del meta2_variable_display_width[key]
+    meta2_variable_display_width = meta_dict['variable_display_width']
 
     # 处理好的variable_measure
-    meta2_variable_measure = meta2.variable_measure
-    for key in column_labels_keys:
-        if key in meta2.variable_measure:
-            del meta2_variable_measure[key]
+    meta2_variable_measure = meta_dict['variable_measure']
 
     # 处理好的original_variable_types
-    meta2_original_variable_types = meta2.original_variable_types
-    for key in column_labels_keys:
-        if key in meta2.original_variable_types:
-            del meta2_original_variable_types[key]
+    meta2_original_variable_types = meta_dict['variable_format']
 
     # 将meta2合并到meta1中
     # 合并column_labels
@@ -133,4 +124,4 @@ def process_meta(df1_columns, df2_columns, meta1, meta2):
 if __name__ == '__main__':
     df = merge_data(df1, df2, index_column_name='CNTSCHID')
     meta = process_meta(df1_columns, df2_columns, meta1, meta2)
-    save(df, './', 'student_school.sav', meta, compress=True)
+    save(df, './', 'student_school_test.sav', meta, compress=True)

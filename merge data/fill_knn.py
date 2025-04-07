@@ -5,12 +5,15 @@ import pyreadstat as pr
 import os
 from tqdm import tqdm
 from utils.meta_process import *
+import numpy as np
 
 
-def main(bashPath, fileName, savePath, n_neighbors=200, missing_threshold=0.5, compress=True):
+def main(bashPath, fileName, savePath, num_splits=2, n_neighbors=200, missing_threshold=0.5, split=False,
+         compress=True):
     filePath = os.path.join(bashPath, fileName)
     df, meta = pr.read_sav(filePath)
 
+    # knn填充法在遇到全缺失的列时，会报错，常见处理方法是直接删除全缺失的列
     imputer = KNNImputer(n_neighbors=n_neighbors)
 
     # 对缺失超过阈值的列进行删除
@@ -31,8 +34,20 @@ def main(bashPath, fileName, savePath, n_neighbors=200, missing_threshold=0.5, c
     # 缺失率超出阈值的列被删除后，需要对meta也进行相应列的删除
     meta_dict = meta_process(meta, del_column_names, del_column_indices)
 
-    # 填补缺失值
-    df_filled = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
+    # 拆分dataframe
+    if split:
+        # 拆分 DataFrame
+        split_dfs = np.array_split(df, num_splits)
+        # 对每个拆分后的 DataFrame 进行 KNN 填充缺失值
+        filled_dfs = []
+        for split_df in tqdm(split_dfs, desc='split'):
+            filled_arr = imputer.fit_transform(split_df)  # type numpy array
+            filled_df = pd.DataFrame(filled_arr, columns=split_df.columns)
+            filled_dfs.append(filled_df)
+        df_filled = pd.concat(filled_dfs, ignore_index=True)
+    else:
+        # 填补缺失值
+        df_filled = pd.DataFrame(imputer.fit_transform(df), columns=df.columns)
 
     pr.write_sav(df_filled, savePath,
                  column_labels=meta_dict['column_labels'],
@@ -50,7 +65,12 @@ if __name__ == '__main__':
     bashPath = r'C:\Users\perper\Desktop\self-efficacy\data'
     # 数据文件名
     fileName = 'student_school_extraFactors.sav'
-    savePath = 'student_school_filled_knn_.sav'
+    savePath = 'student_school_filled_knn__.sav'
     n_neighbors = 200
     missing_threshold = 0.65
-    main(bashPath, fileName, savePath, n_neighbors=n_neighbors, missing_threshold=missing_threshold, compress=True)
+    num_splits = 2
+    split = True
+    compress = True
+    main(bashPath, fileName, savePath, num_splits=num_splits, n_neighbors=n_neighbors,
+         missing_threshold=missing_threshold,
+         split=split, compress=compress)
